@@ -20,6 +20,7 @@ class HomeTableViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         // Register cells
+        tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: "labelCell")
         tableView.register(CoursTableViewCell.self, forCellReuseIdentifier: "coursCell")
         tableView.register(DevoirsTableViewCell.self, forCellReuseIdentifier: "devoirsCell")
         
@@ -32,11 +33,8 @@ class HomeTableViewController: UITableViewController {
     }
     
     func loadContent() {
-        // Get user defaults
-        let data = UserDefaults.standard
-        
-        // Check if workspace is configured
-        if let host = data.string(forKey: "host") {
+        // Check if host is configured
+        if let host = getHost() {
             // Fetch API
             APIRequest("GET", host: host, path: "/api/liste").execute(APIList.self) { data, status in
                 // Check data
@@ -53,15 +51,7 @@ class HomeTableViewController: UITableViewController {
             }
         } else {
             // Show configuration controller
-            let configVC = ConfigurationViewController() { host in
-                // Save data
-                data.set(host, forKey: "host")
-                data.synchronize()
-                
-                // Load content again
-                self.loadContent()
-            }
-            present(UINavigationController(rootViewController: configVC), animated: true, completion: nil)
+            showConfiguration()
         }
     }
     
@@ -69,19 +59,50 @@ class HomeTableViewController: UITableViewController {
         // Reload content
         loadContent()
     }
+    
+    // MARK: - Host management
+    
+    func getHost() -> String? {
+        // Get user defaults
+        let data = UserDefaults.standard
+        
+        // Return host
+        return data.string(forKey: "host")
+    }
+    
+    func setHost(host: String) {
+        // Get user defaults
+        let data = UserDefaults.standard
+        
+        // Write host
+        data.set(host, forKey: "host")
+        data.synchronize()
+    }
+    
+    func showConfiguration() {
+        // Show configuration controller
+        let configVC = ConfigurationViewController() { host in
+            // Save data
+            self.setHost(host: host)
+            
+            // Load content again
+            self.loadContent()
+        }
+        present(UINavigationController(rootViewController: configVC), animated: true, completion: nil)
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? list?.cours?.count ?? 0 : list?.devoirs?.count ?? 0
+        return section == 0 ? list?.cours?.count ?? 0 : section == 1 ? list?.devoirs?.count ?? 0 : 2
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "cours".localized() : "devoirs".localized()
+        return section == 0 ? "cours".localized() : section == 1 ? "devoirs".localized() : "more".localized()
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -91,9 +112,31 @@ class HomeTableViewController: UITableViewController {
         } else if indexPath.section == 1, let devoirs = list?.devoirs?[indexPath.row] {
             // Create cell
             return (tableView.dequeueReusableCell(withIdentifier: "devoirsCell", for: indexPath) as! DevoirsTableViewCell).with(devoirs: devoirs)
+        } else {
+            if indexPath.row == 0 {
+                // Configuration
+                return (tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell).with(text: "configuration".localized(), accessory: .disclosureIndicator)
+            } else if indexPath.row == 1 {
+                // Groupe MINASTE
+                return (tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell).with(text: "Groupe MINASTE", accessory: .disclosureIndicator)
+            }
         }
         
         fatalError("Unknown cell!")
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 2 {
+            if indexPath.row == 0 {
+                // Configuration
+                showConfiguration()
+            } else if indexPath.row == 1 {
+                // Groupe MINASTE
+                if let url = URL(string: "https://www.groupe-minaste.org/") {
+                    UIApplication.shared.open(url)
+                }
+            }
+        }
     }
 
 }

@@ -127,7 +127,9 @@ class ConfigurationViewController: UIViewController, UITextFieldDelegate {
                         self.submitButton.isEnabled = true
                         
                         // Show an alert
-                        // TODO
+                        let alert = UIAlertController(title: "error_host_title".localized(), message: "error_host_description".localized(), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "ok".localized(), style: .default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
             }

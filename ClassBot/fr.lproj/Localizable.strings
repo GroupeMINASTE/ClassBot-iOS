@@ -10,9 +10,13 @@
 "cours" = "Cours";
 "devoirs" = "Devoirs";
 "configuration" = "Configuration";
+"more" = "Plus";
 "cancel" = "Annuler";
+"ok" = "OK";
 "hostLabel" = "Entrez l'hôte du serveur ClassBot :";
 "hostField" = "hôte du serveur...";
 "submitButton" = "Ajouter";
 "verification" = "Vérification...";
 "instructionsButton" = "Instructions d'installation du serveur";
+"error_host_title" = "Hôte invalide !";
+"error_host_description" = "L'hôte que vous avez entrez est invalide ou n'est pas une instance de ClassBot. Contactez votre administrateur si vous avez besoin d'aide pour récupérer l'hôte du serveur.";

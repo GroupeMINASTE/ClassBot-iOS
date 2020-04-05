@@ -10,9 +10,13 @@
 "cours" = "Class";
 "devoirs" = "Homeworks";
 "configuration" = "Configuration";
+"more" = "More";
 "cancel" = "Cancel";
+"ok" = "OK";
 "hostLabel" = "Enter ClassBot server host:";
 "hostField" = "server host...";
 "submitButton" = "Add";
 "verification" = "Checking...";
 "instructionsButton" = "Server installation instructions";
+"error_host_title" = "Invalid host!";
+"error_host_description" = "The host you entered is either invalid or not an instance of ClassBot. Contact your administrator if you need help to get the server host.";
