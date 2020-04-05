@@ -98,7 +98,7 @@ class HomeTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? list?.cours?.count ?? 0 : section == 1 ? list?.devoirs?.count ?? 0 : 2
+        return section == 0 ? list?.cours?.count ?? 1 : section == 1 ? list?.devoirs?.count ?? 1 : 3
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -106,12 +106,20 @@ class HomeTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0, let cours = list?.cours?[indexPath.row] {
+        if indexPath.section == 0 {
             // Create cell
-            return (tableView.dequeueReusableCell(withIdentifier: "coursCell", for: indexPath) as! CoursTableViewCell).with(cours: cours)
-        } else if indexPath.section == 1, let devoirs = list?.devoirs?[indexPath.row] {
+            if let cours = list?.cours?[indexPath.row] {
+                return (tableView.dequeueReusableCell(withIdentifier: "coursCell", for: indexPath) as! CoursTableViewCell).with(cours: cours)
+            } else {
+                return (tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell).with(text: "chargement".localized())
+            }
+        } else if indexPath.section == 1 {
             // Create cell
-            return (tableView.dequeueReusableCell(withIdentifier: "devoirsCell", for: indexPath) as! DevoirsTableViewCell).with(devoirs: devoirs)
+            if let devoirs = list?.devoirs?[indexPath.row] {
+                return (tableView.dequeueReusableCell(withIdentifier: "devoirsCell", for: indexPath) as! DevoirsTableViewCell).with(devoirs: devoirs)
+            } else {
+                return (tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell).with(text: "chargement".localized())
+            }
         } else {
             if indexPath.row == 0 {
                 // Configuration
@@ -119,6 +127,9 @@ class HomeTableViewController: UITableViewController {
             } else if indexPath.row == 1 {
                 // Groupe MINASTE
                 return (tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell).with(text: "Groupe MINASTE", accessory: .disclosureIndicator)
+            } else if indexPath.row == 2 {
+                // Delta
+                return (tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell).with(text: "delta".localized(), accessory: .disclosureIndicator)
             }
         }
         
@@ -133,6 +144,11 @@ class HomeTableViewController: UITableViewController {
             } else if indexPath.row == 1 {
                 // Groupe MINASTE
                 if let url = URL(string: "https://www.groupe-minaste.org/") {
+                    UIApplication.shared.open(url)
+                }
+            } else if indexPath.row == 2 {
+                // Delta
+                if let url = URL(string: "https://apps.apple.com/app/delta-math-helper/id1436506800") {
                     UIApplication.shared.open(url)
                 }
             }

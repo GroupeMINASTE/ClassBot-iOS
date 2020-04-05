@@ -62,7 +62,7 @@ class ConfigurationViewController: UIViewController, UITextFieldDelegate {
         contentView.addSubview(instructionsButton)
         
         hostLabel.translatesAutoresizingMaskIntoConstraints = false
-        hostLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 15).isActive = true
+        hostLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 30).isActive = true
         hostLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 15).isActive = true
         hostLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -15).isActive = true
         hostLabel.font = .boldSystemFont(ofSize: 17)

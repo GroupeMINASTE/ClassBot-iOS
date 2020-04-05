@@ -9,8 +9,10 @@
 "name" = "ClassBot";
 "cours" = "Class";
 "devoirs" = "Homeworks";
+"chargement" = "Loading...";
 "configuration" = "Configuration";
 "more" = "More";
+"delta" = "Math app";
 "cancel" = "Cancel";
 "ok" = "OK";
 "hostLabel" = "Enter ClassBot server host:";
