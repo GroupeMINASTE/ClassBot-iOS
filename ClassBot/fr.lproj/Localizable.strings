@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  ClassBot
+
+  Created by Nathan FALLET on 05/04/2020.
+  Copyright © 2020 Nathan FALLET. All rights reserved.
+*/
+
+"name" = "ClassBot";
+"cours" = "Cours";
+"devoirs" = "Devoirs";
+"configuration" = "Configuration";
+"cancel" = "Annuler";
+"hostLabel" = "Entrez l'hôte du serveur ClassBot :";
+"hostField" = "hôte du serveur...";
+"submitButton" = "Ajouter";
+"verification" = "Vérification...";
+"instructionsButton" = "Instructions d'installation du serveur";

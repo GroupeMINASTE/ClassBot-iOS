@@ -12,13 +12,15 @@ class APIRequest {
     
     // Object properties
     var method: String
+    var host: String
     var path: String
     var queryItems: [URLQueryItem]
     var body: [String: Any]?
     
-    init(_ method: String, path: String) {
+    init(_ method: String, host: String, path: String) {
         // Get request parameters
         self.method = method
+        self.host = host
         self.path = path
         self.queryItems = [URLQueryItem]()
     }
@@ -49,7 +51,7 @@ class APIRequest {
     func getURL() -> URL? {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "classbot-ts2.herokuapp.com"
+        components.host = host
         components.path = path
         
         if !queryItems.isEmpty {
