@@ -78,7 +78,7 @@ class ConfigurationViewController: UIViewController, UITextFieldDelegate {
         hostField.textAlignment = .center
         
         submitButton.translatesAutoresizingMaskIntoConstraints = false
-        submitButton.topAnchor.constraint(equalTo: hostField.bottomAnchor, constant: 16).isActive = true
+        submitButton.topAnchor.constraint(equalTo: hostField.bottomAnchor, constant: 30).isActive = true
         submitButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         submitButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
         submitButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
