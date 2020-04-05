@@ -12,8 +12,8 @@ struct Devoirs: Codable {
     
     var id: Int?
     var name: String?
-    var content: String?
     var due: String?
+    var content: String?
     var user: String?
     
 }

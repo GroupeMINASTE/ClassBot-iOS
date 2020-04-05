@@ -26,6 +26,7 @@ class CoursTableViewCell: UITableViewCell {
         label.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor).isActive = true
         label.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor).isActive = true
         label.adjustsFontSizeToFitWidth = true
+        label.font = .boldSystemFont(ofSize: 17)
         
         date.translatesAutoresizingMaskIntoConstraints = false
         date.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor).isActive = true
