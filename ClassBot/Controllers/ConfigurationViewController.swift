@@ -76,6 +76,11 @@ class ConfigurationViewController: UIViewController, UITextFieldDelegate {
         hostField.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -15).isActive = true
         hostField.placeholder = "hostField".localized()
         hostField.textAlignment = .center
+        hostField.autocorrectionType = .no
+        hostField.autocapitalizationType = .none
+        hostField.returnKeyType = .done
+        hostField.keyboardType = .URL
+        hostField.delegate = self
         
         submitButton.translatesAutoresizingMaskIntoConstraints = false
         submitButton.topAnchor.constraint(equalTo: hostField.bottomAnchor, constant: 30).isActive = true

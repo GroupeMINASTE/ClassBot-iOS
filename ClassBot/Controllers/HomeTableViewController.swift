@@ -41,10 +41,13 @@ class HomeTableViewController: UITableViewController {
                 if let data = data {
                     // Set data
                     self.list = data
-                    
-                    // Update tableView
-                    self.tableView.reloadData()
+                } else {
+                    // Set empty data
+                    self.list = APIList()
                 }
+                
+                // Update tableView
+                self.tableView.reloadData()
                 
                 // End refreshing
                 self.refreshControl?.endRefreshing()
