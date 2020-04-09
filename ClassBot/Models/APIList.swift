@@ -10,6 +10,7 @@ import Foundation
 
 struct APIList: Codable {
     
+    var classes: [Classe]?
     var cours: [Cours]?
     var devoirs: [Devoirs]?
     

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A643637243DF56300E6FF0D /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A643636243DF56300E6FF0D /* APIConfiguration.swift */; };
+		6A643639243E015400E6FF0D /* Classe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A643638243E015300E6FF0D /* Classe.swift */; };
 		6A7EA850243903D6001995C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7EA84F243903D6001995C6 /* AppDelegate.swift */; };
 		6A7EA859243903D7001995C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A7EA858243903D7001995C6 /* Assets.xcassets */; };
 		6A7EA85C243903D7001995C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A7EA85A243903D7001995C6 /* LaunchScreen.storyboard */; };
@@ -28,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A643636243DF56300E6FF0D /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
+		6A643638243E015300E6FF0D /* Classe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classe.swift; sourceTree = "<group>"; };
 		6A7EA84C243903D6001995C6 /* ClassBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A7EA84F243903D6001995C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A7EA858243903D7001995C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -114,10 +118,12 @@
 		6A7EA86724390535001995C6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6A643636243DF56300E6FF0D /* APIConfiguration.swift */,
 				6A7EA8682439055B001995C6 /* APIList.swift */,
 				6A7EA86E243905AF001995C6 /* APIRequest.swift */,
 				6A7EA870243905C3001995C6 /* APIResponseStatus.swift */,
 				6A9217722439BD5D0031C968 /* APIVerification.swift */,
+				6A643638243E015300E6FF0D /* Classe.swift */,
 				6A7EA86A2439057C001995C6 /* Cours.swift */,
 				6A7EA86C24390585001995C6 /* Devoirs.swift */,
 			);
@@ -218,7 +224,9 @@
 			files = (
 				6A7EA86D24390585001995C6 /* Devoirs.swift in Sources */,
 				6A9217712439B6AC0031C968 /* UIColorExtension.swift in Sources */,
+				6A643639243E015400E6FF0D /* Classe.swift in Sources */,
 				6A9217672439B0040031C968 /* DateExtension.swift in Sources */,
+				6A643637243DF56300E6FF0D /* APIConfiguration.swift in Sources */,
 				6A7EA864243904DF001995C6 /* HomeTableViewController.swift in Sources */,
 				6A9217622439AE350031C968 /* DevoirsTableViewCell.swift in Sources */,
 				6A92176F2439B68E0031C968 /* ConfigurationViewController.swift in Sources */,
@@ -378,7 +386,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = ZL9396WK65;
 				INFOPLIST_FILE = ClassBot/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -398,7 +406,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = ZL9396WK65;
 				INFOPLIST_FILE = ClassBot/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

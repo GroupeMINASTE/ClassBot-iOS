@@ -12,15 +12,15 @@ class APIRequest {
     
     // Object properties
     var method: String
-    var host: String
+    var configuration: APIConfiguration
     var path: String
     var queryItems: [URLQueryItem]
     var body: [String: Any]?
     
-    init(_ method: String, host: String, path: String) {
+    init(_ method: String, configuration: APIConfiguration, path: String) {
         // Get request parameters
         self.method = method
-        self.host = host
+        self.configuration = configuration
         self.path = path
         self.queryItems = [URLQueryItem]()
     }
@@ -50,8 +50,9 @@ class APIRequest {
     // Construct URL
     func getURL() -> URL? {
         var components = URLComponents()
-        components.scheme = "https"
-        components.host = host
+        components.scheme = configuration.proto
+        components.host = configuration.host
+        components.port = configuration.port
         components.path = path
         
         if !queryItems.isEmpty {

@@ -12,6 +12,8 @@ struct Cours: Codable {
     
     var id: Int?
     var name: String?
+    var classe: String?
+    var role: String?
     var start: String?
     var user: String?
     

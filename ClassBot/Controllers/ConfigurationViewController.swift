@@ -10,7 +10,7 @@ import UIKit
 
 class ConfigurationViewController: UIViewController, UITextFieldDelegate {
     
-    var completionHandler: (String) -> ()
+    var completionHandler: (APIConfiguration) -> ()
     let scrollView = UIScrollView()
     let contentView = UIView()
     var hostLabel = UILabel()
@@ -20,7 +20,7 @@ class ConfigurationViewController: UIViewController, UITextFieldDelegate {
     var bottomConstraint: NSLayoutConstraint!
     var checking = false
     
-    init(completionHandler: @escaping (String) -> ())  {
+    init(completionHandler: @escaping (APIConfiguration) -> ())  {
         self.completionHandler = completionHandler
         
         super.init(nibName: nil, bundle: nil)
@@ -114,17 +114,20 @@ class ConfigurationViewController: UIViewController, UITextFieldDelegate {
     @objc func buttonClicked(_ sender: UIButton) {
         if sender == submitButton {
             // Get host
-            if !checking, let host = hostField.text, !host.isEmpty {
+            if !checking, let field = hostField.text?.trimmingCharacters(in: CharacterSet(charactersIn: " ")), !field.isEmpty {
                 // Check
                 checking = true
                 submitButton.isEnabled = false
                 
+                // Convert to APIConfiguration
+                let configuration = field.toAPIConfiguration()
+                
                 // Query API
-                APIRequest("GET", host: host, path: "/api/classbot").execute(APIVerification.self) { data, status in
+                APIRequest("GET", configuration: configuration, path: "/api/classbot").execute(APIVerification.self) { data, status in
                     // Check data and bool
                     if let data = data, data.classbot == true {
                         // Validate and dismiss
-                        self.completionHandler(host)
+                        self.completionHandler(configuration)
                         self.dismiss(animated: true, completion: nil)
                     } else {
                         // Host is not correct

@@ -33,5 +33,51 @@ extension String {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.date(from: self)
     }
+    
+    // Convert to configuration
+    func toAPIConfiguration() -> APIConfiguration {
+        var workspace = self
+        
+        // Get protocol
+        var proto: String
+        if workspace.starts(with: "http://") {
+            // Set https
+            proto = "http"
+            workspace = String(workspace.suffix(workspace.count - 7))
+        } else if workspace.starts(with: "https://") {
+            // Set http
+            proto = "https"
+            workspace = String(workspace.suffix(workspace.count - 8))
+        } else {
+            // Set https by default
+            proto = "https"
+        }
+        
+        // Remove / at end if exists
+        if workspace.hasSuffix("/") {
+            // Remove it
+            workspace = String(workspace.prefix(workspace.count - 1))
+        }
+        
+        // Get port
+        var port: Int
+        let parts = workspace.split(separator: ":")
+        if parts.count == 2, let integer = Int(parts[1]) {
+            // Set port
+            port = integer
+        } else {
+            // Set port based on protocol
+            port = proto == "https" ? 443 : 80
+        }
+        
+        // Get host
+        var host = workspace
+        if parts.count > 0 {
+            host = String(parts[0])
+        }
+        
+        // Build configuration
+        return APIConfiguration(proto: proto, host: host, port: port, classes: [])
+    }
 
 }

@@ -28,15 +28,20 @@ class HomeTableViewController: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(reloadContent(_:)), for: .valueChanged)
         
+        // Migrate from old host to new configuration if required
+        migrateHostToConfiguration()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         // Load content
         loadContent()
     }
     
     func loadContent() {
         // Check if host is configured
-        if let host = getHost() {
+        if let configuration = getConfiguration() {
             // Fetch API
-            APIRequest("GET", host: host, path: "/api/liste").execute(APIList.self) { data, status in
+            APIRequest("GET", configuration: configuration, path: "/api/liste").execute(APIList.self) { data, status in
                 // Check data
                 if let data = data {
                     // Set data
@@ -58,6 +63,21 @@ class HomeTableViewController: UITableViewController {
         }
     }
     
+    public func migrateHostToConfiguration() {
+        // Get user defaults
+        let data = UserDefaults.standard
+        
+        // If host is defined
+        if let host = data.string(forKey: "host") {
+            // Remove host from data
+            data.removeObject(forKey: "host")
+            data.synchronize()
+            
+            // Set the new configuration
+            setConfiguration(configuration: host.toAPIConfiguration())
+        }
+    }
+    
     @objc func reloadContent(_ sender: UIRefreshControl) {
         // Reload content
         loadContent()
@@ -65,28 +85,41 @@ class HomeTableViewController: UITableViewController {
     
     // MARK: - Host management
     
-    func getHost() -> String? {
+    func getConfiguration() -> APIConfiguration? {
         // Get user defaults
         let data = UserDefaults.standard
         
-        // Return host
-        return data.string(forKey: "host")
+        // Return configuration
+        if let configuration = data.data(forKey: "configuration") {
+            do {
+                return try JSONDecoder().decode(APIConfiguration.self, from: configuration)
+            } catch let jsonError {
+                print(jsonError)
+            }
+        }
+        
+        // Nothing configured
+        return nil
     }
     
-    func setHost(host: String) {
+    func setConfiguration(configuration: APIConfiguration) {
         // Get user defaults
         let data = UserDefaults.standard
         
-        // Write host
-        data.set(host, forKey: "host")
-        data.synchronize()
+        // Write configuration
+        do {
+            data.set(try JSONEncoder().encode(configuration), forKey: "configuration")
+            data.synchronize()
+        } catch let jsonError {
+            print(jsonError)
+        }
     }
     
     func showConfiguration() {
         // Show configuration controller
-        let configVC = ConfigurationViewController() { host in
+        let configVC = ConfigurationViewController() { configuration in
             // Save data
-            self.setHost(host: host)
+            self.setConfiguration(configuration: configuration)
             
             // Load content again
             self.loadContent()
