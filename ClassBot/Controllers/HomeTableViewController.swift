@@ -46,6 +46,12 @@ class HomeTableViewController: UITableViewController {
                 if let data = data {
                     // Set data
                     self.list = data
+                    
+                    // And cache it
+                    self.setCachedData(cachedData: data)
+                } else if status == .offline {
+                    // Load from cached data
+                    self.list = self.getCachedData() ?? APIList()
                 } else {
                     // Set empty data
                     self.list = APIList()
@@ -83,7 +89,7 @@ class HomeTableViewController: UITableViewController {
         loadContent()
     }
     
-    // MARK: - Host management
+    // MARK: - Configuration management
     
     func getConfiguration() -> APIConfiguration? {
         // Get user defaults
@@ -126,30 +132,65 @@ class HomeTableViewController: UITableViewController {
         }
         present(UINavigationController(rootViewController: configVC), animated: true, completion: nil)
     }
+    
+    // MARK: - Cache management
+    
+    func getCachedData() -> APIList? {
+        // Get user defaults
+        let data = UserDefaults.standard
+        
+        // Return data
+        if let cachedData = data.data(forKey: "cachedData") {
+            do {
+                return try JSONDecoder().decode(APIList.self, from: cachedData)
+            } catch let jsonError {
+                print(jsonError)
+            }
+        }
+        
+        // Nothing configured
+        return nil
+    }
+    
+    func setCachedData(cachedData: APIList) {
+        // Get user defaults
+        let data = UserDefaults.standard
+        
+        // Write data
+        do {
+            data.set(try JSONEncoder().encode(cachedData), forKey: "cachedData")
+            data.synchronize()
+        } catch let jsonError {
+            print(jsonError)
+        }
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? list?.cours?.count ?? 1 : section == 1 ? list?.devoirs?.count ?? 1 : 3
+        return section == 0 ? 0 : section == 1 ? list?.cours?.count ?? 1 : section == 2 ? list?.devoirs?.count ?? 1 : 3
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "cours".localized() : section == 1 ? "devoirs".localized() : "more".localized()
+        return section == 0 ? "classes".localized() : section == 1 ? "cours".localized() : section == 2 ? "devoirs".localized() : "more".localized()
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
+            // Create cell
+            return (tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell).with(text: "classes".localized(), accessory: .disclosureIndicator)
+        } else if indexPath.section == 1 {
             // Create cell
             if let cours = list?.cours?[indexPath.row] {
                 return (tableView.dequeueReusableCell(withIdentifier: "coursCell", for: indexPath) as! CoursTableViewCell).with(cours: cours)
             } else {
                 return (tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell).with(text: "chargement".localized())
             }
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == 2 {
             // Create cell
             if let devoirs = list?.devoirs?[indexPath.row] {
                 return (tableView.dequeueReusableCell(withIdentifier: "devoirsCell", for: indexPath) as! DevoirsTableViewCell).with(devoirs: devoirs)
@@ -173,7 +214,7 @@ class HomeTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 2 {
+        if indexPath.section == 3 {
             if indexPath.row == 0 {
                 // Configuration
                 showConfiguration()

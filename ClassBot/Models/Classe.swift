@@ -11,7 +11,7 @@ import Foundation
 struct Classe: Codable {
     
     var id: Int?
-    var name: Int?
-    var role: Int?
+    var name: String?
+    var role: String?
     
 }
