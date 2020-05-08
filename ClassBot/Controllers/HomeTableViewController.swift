@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import APIRequest
 
 class HomeTableViewController: UITableViewController {
     
@@ -41,7 +42,7 @@ class HomeTableViewController: UITableViewController {
         // Check if host is configured
         if let configuration = getConfiguration() {
             // Fetch API
-            APIRequest("GET", configuration: configuration, path: "/api/liste").execute(APIList.self) { data, status in
+            APIRequest("GET", path: "/api/liste", configuration: configuration.toAPIConfiguration()).execute(APIList.self) { data, status in
                 // Check data
                 if let data = data {
                     // Set data
@@ -91,14 +92,14 @@ class HomeTableViewController: UITableViewController {
     
     // MARK: - Configuration management
     
-    func getConfiguration() -> APIConfiguration? {
+    func getConfiguration() -> ClassBotConfiguration? {
         // Get user defaults
         let data = UserDefaults.standard
         
         // Return configuration
         if let configuration = data.data(forKey: "configuration") {
             do {
-                return try JSONDecoder().decode(APIConfiguration.self, from: configuration)
+                return try JSONDecoder().decode(ClassBotConfiguration.self, from: configuration)
             } catch let jsonError {
                 print(jsonError)
             }
@@ -108,7 +109,7 @@ class HomeTableViewController: UITableViewController {
         return nil
     }
     
-    func setConfiguration(configuration: APIConfiguration) {
+    func setConfiguration(configuration: ClassBotConfiguration) {
         // Get user defaults
         let data = UserDefaults.standard
         

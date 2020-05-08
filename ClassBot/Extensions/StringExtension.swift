@@ -35,7 +35,7 @@ extension String {
     }
     
     // Convert to configuration
-    func toAPIConfiguration() -> APIConfiguration {
+    func toAPIConfiguration() -> ClassBotConfiguration {
         var workspace = self
         
         // Get protocol
@@ -77,7 +77,7 @@ extension String {
         }
         
         // Build configuration
-        return APIConfiguration(proto: proto, host: host, port: port, classes: [])
+        return ClassBotConfiguration(proto: proto, host: host, port: port, classes: [])
     }
 
 }

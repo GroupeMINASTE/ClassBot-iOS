@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import APIRequest
 
 class ConfigurationViewController: UIViewController, UITextFieldDelegate {
     
-    var completionHandler: (APIConfiguration) -> ()
+    var completionHandler: (ClassBotConfiguration) -> ()
     let scrollView = UIScrollView()
     let contentView = UIView()
     var hostLabel = UILabel()
@@ -20,7 +21,7 @@ class ConfigurationViewController: UIViewController, UITextFieldDelegate {
     var bottomConstraint: NSLayoutConstraint!
     var checking = false
     
-    init(completionHandler: @escaping (APIConfiguration) -> ())  {
+    init(completionHandler: @escaping (ClassBotConfiguration) -> ())  {
         self.completionHandler = completionHandler
         
         super.init(nibName: nil, bundle: nil)
@@ -123,7 +124,7 @@ class ConfigurationViewController: UIViewController, UITextFieldDelegate {
                 let configuration = field.toAPIConfiguration()
                 
                 // Query API
-                APIRequest("GET", configuration: configuration, path: "/api/classbot").execute(APIVerification.self) { data, status in
+                APIRequest("GET", path: "/api/classbot", configuration: configuration.toAPIConfiguration()).execute(APIVerification.self) { data, status in
                     // Check data and bool
                     if let data = data, data.classbot == true {
                         // Validate and dismiss

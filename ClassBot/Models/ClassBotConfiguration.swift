@@ -1,5 +1,5 @@
 //
-//  APIConfiguration.swift
+//  ClassBotConfiguration.swift
 //  ClassBot
 //
 //  Created by Nathan FALLET on 08/04/2020.
@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import APIRequest
 
-struct APIConfiguration: Codable {
+struct ClassBotConfiguration: Codable {
     
     var proto: String
     var host: String
@@ -17,6 +18,10 @@ struct APIConfiguration: Codable {
     
     func toString() -> String {
         return "\(proto)://\(host):\(port)"
+    }
+    
+    func toAPIConfiguration() -> APIConfiguration {
+        return APIConfiguration(host: host, scheme: proto, port: port)
     }
     
 }
